@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Olá, {{ user.username }}</h1>
+
+<section class="dashboard-grid">
+    <div class="card">
+        <h3>Progresso</h3>
+        <p>0% concluído</p>
+    </div>
+
+    <div class="card">
+        <h3>Pontuação</h3>
+        <p>0 pontos</p>
+    </div>
+
+    <div class="card">
+        <h3>Status</h3>
+        <p>Treinamento não iniciado</p>
+    </div>
+</section>
+
+<a class="btn-primary" href="#">Continuar treinamento</a>
+{% endblock %}

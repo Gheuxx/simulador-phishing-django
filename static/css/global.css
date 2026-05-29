@@ -1,0 +1,120 @@
+:root {
+    --primary: #9B111E;
+    --bg: #f5f5f5;
+    --text: #222;
+    --card: #ffffff;
+    --border: #dddddd;
+}
+
+[data-theme="dark"] {
+    --bg: #121212;
+    --text: #f5f5f5;
+    --card: #1f1f1f;
+    --border: #333333;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+}
+
+.navbar {
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-weight: bold;
+    color: var(--primary);
+}
+
+.navbar a {
+    margin-left: 16px;
+    text-decoration: none;
+    color: var(--text);
+}
+
+#theme-toggle {
+    margin-left: 16px;
+    border: none;
+    background: var(--primary);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 32px;
+}
+
+.hero {
+    background: var(--card);
+    padding: 48px;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    text-align: center;
+}
+
+.btn-primary {
+    display: inline-block;
+    background: var(--primary);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    border: none;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.auth-card {
+    max-width: 420px;
+    margin: 40px auto;
+    background: var(--card);
+    padding: 32px;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+}
+
+.auth-card input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 4px;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.card {
+    background: var(--card);
+    padding: 24px;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .container {
+        padding: 16px;
+    }
+}
