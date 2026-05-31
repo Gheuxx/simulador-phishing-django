@@ -1,0 +1,187 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="dashboard-header">
+    <h1>Dashboard do Administrador</h1>
+    <p>Acompanhe o progresso dos usuários no treinamento.</p>
+</section>
+
+<section class="dashboard-grid">
+    <div class="card">
+        <h3>Total de usuários</h3>
+        <p>{{ total_usuarios }}</p>
+    </div>
+
+    <div class="card">
+        <h3>Não iniciados</h3>
+        <p>{{ nao_iniciados }}</p>
+    </div>
+
+    <div class="card">
+        <h3>Em andamento</h3>
+        <p>{{ em_andamento }}</p>
+    </div>
+
+    <div class="card">
+        <h3>Concluídos</h3>
+        <p>{{ concluidos }}</p>
+    </div>
+
+    <div class="card">
+        <h3>Taxa de conclusão</h3>
+        <p>{{ taxa_conclusao }}%</p>
+    </div>
+</section>
+
+<section class="admin-charts">
+    <div class="admin-chart-card">
+        <h2>Distribuição de progresso</h2>
+        <canvas id="progressChart"></canvas>
+    </div>
+
+    <div class="admin-chart-card">
+        <h2>Classificação de risco</h2>
+        <canvas id="riskChart"></canvas>
+    </div>
+</section>
+
+<section class="admin-table-card">
+    <h2>Acompanhamento dos usuários</h2>
+
+    <div class="admin-export-actions">
+        <a class="btn-primary" href="{% url 'exportar_csv' %}">
+            Exportar CSV
+        </a>
+
+        <a class="btn-secondary" href="{% url 'exportar_pdf' %}">
+            Exportar PDF
+        </a>
+    </div>
+
+    <div class="admin-filters">
+        <a href="{% url 'dashboard' %}?filtro=todos"
+        class="{% if filtro_atual == 'todos' %}active{% endif %}">
+            Todos
+        </a>
+
+        <a href="{% url 'dashboard' %}?filtro=nao_iniciados"
+        class="{% if filtro_atual == 'nao_iniciados' %}active{% endif %}">
+            Não iniciados
+        </a>
+
+        <a href="{% url 'dashboard' %}?filtro=em_andamento"
+        class="{% if filtro_atual == 'em_andamento' %}active{% endif %}">
+            Em andamento
+        </a>
+
+        <a href="{% url 'dashboard' %}?filtro=concluidos"
+        class="{% if filtro_atual == 'concluidos' %}active{% endif %}">
+            Concluídos
+        </a>
+
+        <a href="{% url 'dashboard' %}?filtro=baixo_risco"
+        class="{% if filtro_atual == 'baixo_risco' %}active{% endif %}">
+            Baixo risco
+        </a>
+
+        <a href="{% url 'dashboard' %}?filtro=medio_risco"
+        class="{% if filtro_atual == 'medio_risco' %}active{% endif %}">
+            Médio risco
+        </a>
+
+        <a href="{% url 'dashboard' %}?filtro=alto_risco"
+        class="{% if filtro_atual == 'alto_risco' %}active{% endif %}">
+            Alto risco
+        </a>
+    </div>
+
+    <div class="table-wrapper">
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Usuário</th>
+                    <th>Progresso</th>
+                    <th>Pontuação</th>
+                    <th>Módulo 2</th>
+                    <th>Risco Módulo 3</th>
+                    <th>Status</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for progress in progresses %}
+                    <tr>
+                        <td>{{ progress.user.first_name }} {{ progress.user.last_name }}</td>
+                        <td>{{ progress.user.username }}</td>
+                        <td>{{ progress.calcular_progresso }}%</td>
+                        <td>{{ progress.total_score }}</td>
+                        <td>{{ progress.modulo2_score }} / {{ progress.modulo2_total }}</td>
+                        <td>
+                            {% if progress.modulo3_risco %}
+                                {{ progress.modulo3_risco }}
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+                        <td>{{ progress.calcular_status }}</td>
+                        <td>
+                            <a class="table-action" href="{% url 'detalhe_usuario' progress.id %}">
+                                Ver detalhes
+                            </a>
+
+                            <a class="table-action danger"
+                            href="{% url 'resetar_progresso_usuario' progress.id %}"
+                            onclick="return confirm('Tem certeza que deseja resetar o progresso deste usuário?')">
+                                Resetar
+                            </a>
+                        </td>
+                    </tr>
+                    
+                {% empty %}
+                    <tr>
+                        <td colspan="8">Nenhum usuário encontrado.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="pagination">
+        {% if page_obj.has_previous %}
+            <a href="?filtro={{ filtro_atual }}&page=1">Primeira</a>
+            <a href="?filtro={{ filtro_atual }}&page={{ page_obj.previous_page_number }}">Anterior</a>
+        {% endif %}
+
+        <span>
+            Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?filtro={{ filtro_atual }}&page={{ page_obj.next_page_number }}">Próxima</a>
+            <a href="?filtro={{ filtro_atual }}&page={{ page_obj.paginator.num_pages }}">Última</a>
+        {% endif %}
+    </div>
+    
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    const progressoData = {
+        naoIniciados: {{ nao_iniciados }},
+        emAndamento: {{ em_andamento }},
+        concluidos: {{ concluidos }}
+    };
+
+    const riscoData = {
+        baixo: {{ baixo_risco }},
+        medio: {{ medio_risco }},
+        alto: {{ alto_risco }}
+    };
+</script>
+
+<script src="{% static 'js/admin_charts.js' %}"></script>
+{% endblock %}

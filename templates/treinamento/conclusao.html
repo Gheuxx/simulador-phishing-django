@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="module-page">
+    <div class="completion-card">
+        <span class="auth-badge">Treinamento concluído</span>
+
+        <h1>Parabéns, {{ user.first_name|default:user.username }}!</h1>
+
+        <p>
+            Você concluiu o Simulador Educacional de Phishing.
+            Este treinamento demonstrou conceitos, identificação de redflags
+            e tomada de decisão em cenários simulados.
+        </p>
+
+        <div class="completion-list">
+            <div>
+                <strong>✓ Módulo 1</strong>
+                <span>Introdução ao Phishing</span>
+            </div>
+
+            <div>
+                <strong>✓ Módulo 2</strong>
+                <span>Identificação de Redflags</span>
+            </div>
+
+            <div>
+                <strong>✓ Módulo 3</strong>
+                <span>Simulador de Phishing</span>
+            </div>
+        </div>
+
+        <div class="result-summary">
+            <div>
+                <h3>Status</h3>
+                <p class="approved">Concluído</p>
+            </div>
+
+            <div>
+                <h3>Pontuação</h3>
+                <p>300 pontos</p>
+            </div>
+        </div>
+
+        <a class="btn-primary" href="{% url 'dashboard' %}">Voltar ao Dashboard</a>
+    </div>
+</section>
+
+<script>
+    if (localStorage.getItem('modulo3_concluido') !== 'true') {
+        alert('Você precisa concluir todos os módulos antes de acessar esta tela.');
+        window.location.href = "{% url 'dashboard' %}";
+    }
+</script>
+{% endblock %}

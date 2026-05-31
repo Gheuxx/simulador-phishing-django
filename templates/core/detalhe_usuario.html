@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="dashboard-header">
+    <h1>Detalhes do Usuário</h1>
+    <p>Acompanhe individualmente o progresso no treinamento.</p>
+</section>
+
+<section class="detail-card">
+    <div class="detail-header">
+        <div>
+            <span class="auth-badge">Usuário</span>
+            <h2>{{ progress.user.first_name }} {{ progress.user.last_name }}</h2>
+            <p>@{{ progress.user.username }}</p>
+        </div>
+
+        <div class="detail-status">
+            <strong>{{ progress.calcular_status }}</strong>
+            <span>{{ progress.calcular_progresso }}% concluído</span>
+        </div>
+    </div>
+
+    <div class="result-summary">
+        <div>
+            <h3>Pontuação</h3>
+            <p>{{ progress.total_score }}</p>
+        </div>
+
+        <div>
+            <h3>Módulo 2</h3>
+            <p>{{ progress.modulo2_score }} / {{ progress.modulo2_total }}</p>
+        </div>
+
+        <div>
+            <h3>Assertividade</h3>
+            <p>{{ modulo2_percentual }}%</p>
+        </div>
+
+        <div>
+            <h3>Risco</h3>
+            <p>
+                {% if progress.modulo3_risco %}
+                    {{ progress.modulo3_risco }}
+                {% else %}
+                    -
+                {% endif %}
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="detail-card">
+    <h2>Progresso por módulo</h2>
+
+    <div class="detail-module-list">
+        <div class="detail-module-item {% if progress.modulo1_concluido %}completed{% endif %}">
+            <div>
+                <strong>Módulo 1</strong>
+                <span>Introdução ao Phishing</span>
+            </div>
+
+            {% if progress.modulo1_concluido %}
+                <span class="module-status">Concluído</span>
+            {% else %}
+                <span class="module-status">Pendente</span>
+            {% endif %}
+        </div>
+
+        <div class="detail-module-item {% if progress.modulo2_concluido %}completed{% endif %}">
+            <div>
+                <strong>Módulo 2</strong>
+                <span>Identificação de Redflags</span>
+                <small>Resultado: {{ progress.modulo2_score }} / {{ progress.modulo2_total }}</small>
+            </div>
+
+            {% if progress.modulo2_concluido %}
+                <span class="module-status">Concluído</span>
+            {% else %}
+                <span class="module-status">Pendente</span>
+            {% endif %}
+        </div>
+
+        <div class="detail-module-item {% if progress.modulo3_concluido %}completed{% endif %}">
+            <div>
+                <strong>Módulo 3</strong>
+                <span>Simulador de Phishing</span>
+                <small>
+                    Risco:
+                    {% if progress.modulo3_risco %}
+                        {{ progress.modulo3_risco }}
+                    {% else %}
+                        -
+                    {% endif %}
+                </small>
+            </div>
+
+            {% if progress.modulo3_concluido %}
+                <span class="module-status">Concluído</span>
+            {% else %}
+                <span class="module-status">Pendente</span>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<section class="detail-actions">
+    <a class="btn-secondary" href="{% url 'dashboard' %}">Voltar ao Dashboard</a>
+
+    <a class="btn-primary"
+       href="{% url 'resetar_progresso_usuario' progress.id %}"
+       onclick="return confirm('Tem certeza que deseja resetar o progresso deste usuário?')">
+        Resetar progresso
+    </a>
+</section>
+{% endblock %}

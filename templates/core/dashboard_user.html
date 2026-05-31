@@ -1,24 +1,115 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-<h1>Olá, {{ user.username }}</h1>
+<section class="dashboard-header">
+    <h1>Olá, {{ user.first_name|default:user.username }}</h1>
+    <p>Continue seu treinamento educacional sobre phishing.</p>
+</section>
 
 <section class="dashboard-grid">
     <div class="card">
         <h3>Progresso</h3>
-        <p>0% concluído</p>
+        <p>{{ progress.calcular_progresso }}% concluído</p>
     </div>
 
     <div class="card">
         <h3>Pontuação</h3>
-        <p>0 pontos</p>
+        <p>{{ progress.total_score }} pontos</p>
     </div>
 
     <div class="card">
         <h3>Status</h3>
-        <p>Treinamento não iniciado</p>
+        <p>{{ progress.calcular_status }}</p>
     </div>
 </section>
 
-<a class="btn-primary" href="#">Continuar treinamento</a>
+<section class="training-list">
+    <h2>Módulos do treinamento</h2>
+
+    <div class="module-card {% if progress.modulo1_concluido %}completed{% endif %}" id="module-1-card">
+        <div>
+            <span class="module-number">Módulo 1</span>
+            <h3>Introdução ao Phishing</h3>
+            <p>Conceitos básicos, tipos de phishing, exemplos e redflags.</p>
+
+            <span class="module-status">
+                {% if progress.modulo1_concluido %}
+                    Concluído
+                {% else %}
+                    Pendente
+                {% endif %}
+            </span>
+        </div>
+
+        <a class="btn-primary" id="module-1-button" href="{% url 'modulo1' %}">
+            {% if progress.modulo1_concluido %}
+                Visualizar
+            {% else %}
+                Iniciar
+            {% endif %}
+        </a>
+    </div>
+
+    <div class="module-card {% if progress.modulo2_concluido %}completed{% elif not progress.modulo1_concluido %}locked{% endif %}" id="module-2-card">
+        <div>
+            <span class="module-number">Módulo 2</span>
+            <h3>Identificação de Redflags</h3>
+            <p>Análise de 5 cenários simulados com feedback educativo.</p>
+
+            <span class="module-status">
+                {% if progress.modulo2_concluido %}
+                    Concluído
+                {% elif progress.modulo1_concluido %}
+                    Pendente
+                {% else %}
+                    Bloqueado
+                {% endif %}
+            </span>
+        </div>
+
+        {% if progress.modulo1_concluido %}
+            <a class="btn-primary" id="module-2-button" href="{% url 'modulo2' %}">
+                {% if progress.modulo2_concluido %}
+                    Visualizar
+                {% else %}
+                    Iniciar
+                {% endif %}
+            </a>
+        {% else %}
+            <a class="btn-secondary disabled-link" id="module-2-button" href="#">Bloqueado 🔒</a>
+        {% endif %}
+    </div>
+
+    <div class="module-card {% if progress.modulo3_concluido %}completed{% elif not progress.modulo2_concluido %}locked{% endif %}" id="module-3-card">
+        <div>
+            <span class="module-number">Módulo 3</span>
+            <h3>Simulador de Phishing</h3>
+            <p>Tomada de decisão em cenários interativos simulados.</p>
+
+            <span class="module-status">
+                {% if progress.modulo3_concluido %}
+                    Concluído
+                {% elif progress.modulo2_concluido %}
+                    Pendente
+                {% else %}
+                    Bloqueado
+                {% endif %}
+            </span>
+        </div>
+
+        {% if progress.modulo2_concluido %}
+            <a class="btn-primary" id="module-3-button" href="{% url 'modulo3' %}">
+                {% if progress.modulo3_concluido %}
+                    Visualizar
+                {% else %}
+                    Iniciar
+                {% endif %}
+            </a>
+        {% else %}
+            <a class="btn-secondary disabled-link" id="module-3-button" href="#">Bloqueado 🔒</a>
+        {% endif %}
+    </div>
+    
+</section>
 {% endblock %}

@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="module-page">
+    <div class="module-header">
+        <span class="auth-badge">Módulo 2</span>
+        <h1>Identificação de Redflags</h1>
+        <p>
+            Analise cada cenário simulado e marque os sinais que indicam uma possível tentativa de phishing.
+        </p>
+    </div>
+
+    <div id="scenario-container" class="scenario-card">
+        <span id="scenario-step" class="slide-step"></span>
+        <h2 id="scenario-title"></h2>
+        <p id="scenario-description"></p>
+
+        <div class="scenario-image">
+            <img id="scenario-image" class="scenario-img" src="" alt="Imagem do cenário simulado">
+            <p id="scenario-image-text"></p>
+        </div>
+
+        <form id="scenario-form" class="checkbox-list"></form>
+
+        <div id="feedback-box" class="feedback-box hidden"></div>
+    </div>
+
+    <div class="slide-controls">
+        <button class="btn-primary" id="submit-answer">Enviar resposta</button>
+        <button class="btn-primary hidden" id="next-scenario">Próximo cenário</button>
+        <a class="btn-primary hidden" id="finish-module2" href="{% url 'modulo3' %}">
+            Ir para Módulo 3
+        </a>
+    </div>
+
+    <div id="final-result" class="result-card hidden"></div>
+
+    <div class="module-actions">
+        <a class="btn-secondary" href="{% url 'dashboard' %}">Voltar ao Dashboard</a>
+    </div>
+</section>
+
+<script>
+    const salvarModulo2Url = "{% url 'salvar_modulo2' %}";
+</script>
+
+<script src="{% static 'js/modulo2.js' %}"></script>
+
+{% endblock %}

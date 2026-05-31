@@ -40,7 +40,7 @@ INSTALLED_APPS = [
 
     'accounts',
     'core',
-    'treinamento',
+    'treinamento.apps.TreinamentoConfig',
     'relatorios',
 ]
 

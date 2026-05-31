@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="module-page">
+    <div class="module-header">
+        <span class="auth-badge">Módulo 1</span>
+        <h1>Introdução ao Phishing</h1>
+        <p>
+            Aprenda os conceitos básicos sobre phishing, seus principais tipos
+            e os sinais de alerta mais comuns.
+        </p>
+    </div>
+
+    <div class="slide-container">
+
+        <div class="training-slide active">
+            <span class="slide-step">1 de 5</span>
+            <h2>O que é phishing?</h2>
+            <p>
+                Phishing é uma tentativa de enganar pessoas para que revelem
+                informações sensíveis, como senhas, dados bancários ou códigos
+                de acesso.
+            </p>
+            <p>
+                Normalmente, o atacante se passa por uma empresa, instituição
+                ou pessoa confiável.
+            </p>
+        </div>
+
+        <div class="training-slide">
+            <span class="slide-step">2 de 5</span>
+            <h2>Como o phishing aparece?</h2>
+            <p>
+                Ele pode aparecer em e-mails, mensagens SMS, redes sociais,
+                aplicativos de conversa, sites falsos ou links suspeitos.
+            </p>
+            <p>
+                O objetivo é fazer a vítima clicar, baixar algo ou informar dados.
+            </p>
+        </div>
+
+        <div class="training-slide">
+            <span class="slide-step">3 de 5</span>
+            <h2>Tipos comuns de phishing</h2>
+            <ul>
+                <li>E-mails falsos de bancos ou lojas.</li>
+                <li>SMS com links de entrega ou cobrança.</li>
+                <li>Páginas falsas de login.</li>
+                <li>Mensagens urgentes pedindo ação imediata.</li>
+            </ul>
+        </div>
+
+        <div class="training-slide">
+            <span class="slide-step">4 de 5</span>
+            <h2>Principais redflags</h2>
+            <ul>
+                <li>Erros de português ou linguagem estranha.</li>
+                <li>Links encurtados ou domínios suspeitos.</li>
+                <li>Pedidos de senha, token ou dados pessoais.</li>
+                <li>Ameaças, urgência ou promessas exageradas.</li>
+            </ul>
+        </div>
+
+        <div class="training-slide">
+            <span class="slide-step">5 de 5</span>
+            <h2>Boas práticas</h2>
+            <ul>
+                <li>Verifique o remetente antes de clicar.</li>
+                <li>Nunca informe senha fora de canais oficiais.</li>
+                <li>Passe o mouse sobre links antes de abrir.</li>
+                <li>Desconfie de mensagens urgentes demais.</li>
+            </ul>
+        </div>
+
+    </div>
+
+    <div class="slide-controls">
+        <button class="btn-secondary" id="prev-slide">Anterior</button>
+        <button class="btn-primary" id="next-slide">Próximo</button>
+        <a class="btn-primary hidden" id="finish-module" href="{% url 'concluir_modulo1' %}">
+            Concluir módulo
+        </a>
+    </div>
+
+    <div class="module-actions">
+        <a class="btn-secondary" href="{% url 'dashboard' %}">Voltar ao Dashboard</a>
+    </div>
+</section>
+
+<script src="{% static 'js/modulo1.js' %}"></script>
+{% endblock %}

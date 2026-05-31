@@ -23,6 +23,11 @@ urlpatterns = [
 
     path('', core_views.home, name='home'),
     path('dashboard/', core_views.dashboard, name='dashboard'),
-
+    path('dashboard/usuario/<int:progress_id>/', core_views.detalhe_usuario, name='detalhe_usuario'),
+    path('dashboard/resetar/<int:progress_id>/', core_views.resetar_progresso_usuario, name='resetar_progresso_usuario'),
+    path('dashboard/exportar/csv/', core_views.exportar_csv, name='exportar_csv'),
+    path('dashboard/exportar/pdf/', core_views.exportar_pdf, name='exportar_pdf'),
+    
     path('accounts/', include('accounts.urls')),
+    path('treinamento/', include('treinamento.urls')),
 ]

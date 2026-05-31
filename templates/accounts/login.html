@@ -1,19 +1,43 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="auth-card">
-    <h2>Entrar</h2>
+<div class="auth-page">
+    <div class="auth-card">
+        <div class="auth-header">
+            <span class="auth-badge">Acesso à plataforma</span>
+            <h1>Entrar</h1>
+            <p>Acesse sua conta para continuar o treinamento.</p>
+        </div>
 
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
+        <form method="post" class="auth-form">
+            {% csrf_token %}
 
-        <button class="btn-primary" type="submit">Entrar</button>
-    </form>
+            {% if form.non_field_errors %}
+                <div class="form-error">
+                    Usuário ou senha inválidos. Verifique os dados e tente novamente.
+                </div>
+            {% endif %}
 
-    <p>
-        Ainda não possui conta?
-        <a href="{% url 'register' %}">Cadastrar</a>
-    </p>
+            {% for field in form %}
+                <div class="form-group">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+
+                    {% for error in field.errors %}
+                        <span class="field-error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+
+            <button class="btn-primary btn-full" type="submit">
+                Entrar
+            </button>
+        </form>
+
+        <p class="auth-link">
+            Ainda não possui conta?
+            <a href="{% url 'register' %}">Criar conta</a>
+        </p>
+    </div>
 </div>
 {% endblock %}

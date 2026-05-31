@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="module-page">
+    <div class="module-header">
+        <span class="auth-badge">Módulo 3</span>
+        <h1>Simulador de Phishing</h1>
+        <p>
+            Leia cada cenário, avalie o contexto e escolha qual ação você tomaria.
+            Suas decisões irão compor seu nível final de risco.
+        </p>
+    </div>
+
+    <div id="simulation-container" class="scenario-card">
+        <span id="simulation-step" class="slide-step"></span>
+        <h2 id="simulation-title"></h2>
+        <p id="simulation-context"></p>
+
+        <div class="scenario-image">
+            <img id="simulation-image" class="scenario-img" src="" alt="Imagem do cenário simulado">
+            <p id="simulation-image-text"></p>
+        </div>
+
+        <div id="simulation-options" class="decision-list"></div>
+
+        <div id="simulation-feedback" class="feedback-box hidden"></div>
+    </div>
+
+    <div class="slide-controls">
+        <button class="btn-primary hidden" id="next-simulation">Próximo cenário</button>
+        <button class="btn-primary hidden" id="restart-simulation">Refazer Simulador</button>
+        <a class="btn-primary hidden" id="finish-training" href="{% url 'conclusao' %}">
+            Finalizar treinamento
+        </a>
+    </div>
+
+    <div id="simulation-result" class="result-card hidden"></div>
+
+    <div class="module-actions">
+        <a class="btn-secondary" href="{% url 'dashboard' %}">Voltar ao Dashboard</a>
+    </div>
+</section>
+
+<script>
+    const salvarModulo3Url = "{% url 'salvar_modulo3' %}";
+</script>
+
+<script src="{% static 'js/modulo3.js' %}"></script>
+{% endblock %}
